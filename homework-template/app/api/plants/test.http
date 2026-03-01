@@ -1,0 +1,6 @@
+### REST Client file (for api testing)
+
+GET http://localhost:3000/api/plants
+
+
+### 

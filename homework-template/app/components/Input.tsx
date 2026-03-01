@@ -8,11 +8,11 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
 
 export default function Input({ label, ...rest }: Props) {
   return (
-    <label className="space-y-1 text-sm text-slate-200">
-      <span className="block text-xs uppercase tracking-[0.2em] text-white/70">{label}</span>
+    <label className="space-y-1 text-sm text-slate-800">
+      <span className="block text-xs font-semibold uppercase tracking-[0.15em] text-slate-600">{label}</span>
       <input
         {...rest}
-        className="w-full rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/60 focus:border-emerald-200 focus:outline-none"
+        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-200"
       />
     </label>
   );

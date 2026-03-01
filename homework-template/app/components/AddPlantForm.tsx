@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Input from "./Input";
-import type { CreatePlantInput } from "../types/plants";
+import type { Plant } from "@/types";
+
+type CreatePlantInput = Pick<Plant, "name" | "species" | "location">;
 
 type Props = {
   onCreate: (input: CreatePlantInput) => Promise<void> | void;
@@ -46,9 +48,9 @@ export default function AddPlantForm({ onCreate, busy, onError }: Props) {
   };
 
   return (
-    <div className="rounded-3xl bg-white/5 p-6 shadow-lg ring-1 ring-white/10 backdrop-blur">
-      <h2 className="text-xl font-semibold text-white">Add a plant</h2>
-      <p className="text-sm text-slate-200">Name, species, and location are required. Status defaults to Healthy.</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-lg font-semibold text-slate-900">Add a plant</h2>
+      <p className="text-sm text-slate-600">Name, species, and location are required. Status defaults to Healthy.</p>
 
       <div className="mt-4 flex flex-col gap-3">
         <Input
@@ -72,20 +74,20 @@ export default function AddPlantForm({ onCreate, busy, onError }: Props) {
         <button
           onClick={handleSubmit}
           disabled={busy}
-          className="mt-2 inline-flex items-center justify-center rounded-full bg-emerald-300 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-emerald-200 disabled:opacity-60"
+          className="mt-2 inline-flex items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
         >
           {busy ? "Saving…" : "Create plant"}
         </button>
-        {localError && <span className="text-xs text-amber-200">{localError}</span>}
+        {localError && <span className="text-xs text-amber-700">{localError}</span>}
       </div>
 
-      <div className="mt-4 rounded-xl bg-white/5 p-4 text-xs text-slate-200 ring-1 ring-white/10">
-        <p className="font-semibold text-white">How this page talks to your API</p>
+      <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs text-slate-700">
+        <p className="font-semibold text-slate-900">API usage</p>
         <ul className="mt-2 list-disc space-y-1 pl-4">
-          <li>GET /api/plants with optional ?location= filter for the grid.</li>
-          <li>POST /api/plants with name, species, location for creation.</li>
-          <li>PATCH /api/plants/[id] for status or lastWatered tweaks.</li>
-          <li>DELETE /api/plants/[id] to remove an entry.</li>
+          <li>GET /api/plants (supports ?location=)</li>
+          <li>POST /api/plants (name, species, location)</li>
+          <li>PATCH /api/plants/[id] (status or lastWatered)</li>
+          <li>DELETE /api/plants/[id]</li>
         </ul>
       </div>
     </div>

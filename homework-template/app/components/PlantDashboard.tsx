@@ -2,11 +2,8 @@
 
 import AddPlantForm from "./AddPlantForm";
 import PlantGrid from "./PlantGrid";
-import StatPill from "./StatPill";
 import { usePlants } from "../hooks/usePlants";
-import type { PlantStatus } from "../types/plants";
-
-const accent = "from-emerald-200/80 via-sky-100 to-white";
+import type { PlantStatus } from "@/types";
 
 export default function PlantDashboard() {
   const {
@@ -28,30 +25,33 @@ export default function PlantDashboard() {
   };
 
   const handleWaterNow = async (id: string) => {
-    await updatePlant(id, { status: "Healthy", lastWatered: new Date().toISOString() });
+    await updatePlant(id, { status: "Healthy", lastWatered: new Date() });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
-      <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-14 sm:px-10">
-        <header className="flex flex-col gap-3 rounded-3xl bg-white/5 p-7 shadow-lg ring-1 ring-white/10 backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">Plant Care Tracker</p>
-          <div className="flex flex-wrap items-end gap-4">
-            <div>
-              <h1 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">Your indoor jungle, organized</h1>
-              <p className="max-w-2xl text-sm text-slate-200 sm:text-base">
-                Monitor watering, tweak statuses, and keep every leaf happy. The UI talks directly to the /api/plants endpoints you implement.
+    <div className="min-h-screen bg-slate-100 text-slate-900">
+      <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-5 py-10 sm:px-8">
+        <header className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-emerald-700">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+            Plant Care Tracker
+          </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="space-y-1">
+              <h1 className="text-2xl font-semibold sm:text-3xl">Manage your plants</h1>
+              <p className="text-sm text-slate-600">
+                Uses the /api/plants endpoints to list, create, update status/lastWatered, and delete plants.
               </p>
             </div>
-            <div className="ml-auto flex gap-4">
-              <StatPill label="Total" value={summary.total} />
-              <StatPill label="Healthy" value={summary.healthy} tone="emerald" />
-              <StatPill label="Thirsty" value={summary.thirsty} tone="amber" />
+            <div className="ml-auto flex flex-wrap items-center gap-2 text-sm text-slate-800">
+              <Badge label="Total" value={summary.total} tone="slate" />
+              <Badge label="Healthy" value={summary.healthy} tone="emerald" />
+              <Badge label="Thirsty" value={summary.thirsty} tone="amber" />
             </div>
           </div>
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-3">
+        <section className="grid gap-6 lg:grid-cols-[2fr_1fr]">
           <PlantGrid
             plants={plants}
             loading={loading}
@@ -59,7 +59,6 @@ export default function PlantDashboard() {
             locationFilter={locationFilter}
             onLocationChange={setLocationFilter}
             busyId={busyId}
-            accentClass={accent}
             onStatusChange={handleStatusChange}
             onWaterNow={handleWaterNow}
             onDelete={deletePlant}
@@ -69,5 +68,28 @@ export default function PlantDashboard() {
         </section>
       </main>
     </div>
+  );
+}
+
+function Badge({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: number;
+  tone: "slate" | "emerald" | "amber";
+}) {
+  const styles = {
+    slate: "bg-slate-100 text-slate-800 ring-slate-200",
+    emerald: "bg-emerald-100 text-emerald-800 ring-emerald-200",
+    amber: "bg-amber-100 text-amber-800 ring-amber-200",
+  } as const;
+
+  return (
+    <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1 ${styles[tone]}`}>
+      <span className="h-2 w-2 rounded-full bg-current opacity-80" aria-hidden />
+      {label}: {value}
+    </span>
   );
 }

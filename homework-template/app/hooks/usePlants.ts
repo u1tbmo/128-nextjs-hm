@@ -1,23 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { CreatePlantInput, Plant, PlantStatus } from "../types/plants";
+import type { Plant, PlantStatus } from "@/types";
+
+export type CreatePlantInput = Pick<Plant, "name" | "species" | "location">;
 
 const normalizePlants = (payload: unknown): Plant[] => {
+  const toPlant = (raw: any): Plant => ({
+    ...raw,
+    lastWatered: raw?.lastWatered ? new Date(raw.lastWatered) : new Date(),
+  });
+
   if (Array.isArray((payload as { data?: unknown }).data)) {
-    return (payload as { data: Plant[] }).data;
+    return (payload as { data: Plant[] }).data.map(toPlant);
   }
 
   if (Array.isArray(payload)) {
-    return payload as Plant[];
-  }
-
-  if (payload && typeof payload === "object" && Array.isArray((payload as { data?: unknown }).data)) {
-    return (payload as { data: Plant[] }).data;
+    return (payload as Plant[]).map(toPlant);
   }
 
   if (payload && typeof payload === "object" && Array.isArray((payload as { plants?: unknown }).plants)) {
-    return (payload as { plants: Plant[] }).plants;
+    return (payload as { plants: Plant[] }).plants.map(toPlant);
   }
 
   return [];
