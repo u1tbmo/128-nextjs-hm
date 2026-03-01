@@ -18,7 +18,7 @@ app.get(
       info: {
         title: "Plants API",
         version: "1.0.0",
-        description: "API for creating, reading, updating, and deleting apps.",
+        description: "API for creating, reading, updating, and deleting plants.",
       },
     },
   }),
