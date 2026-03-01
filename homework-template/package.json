@@ -9,9 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@hono/standard-validator": "^0.2.2",
+    "@scalar/hono-api-reference": "^0.9.46",
+    "hono": "^4.12.3",
+    "hono-openapi": "^1.2.0",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
